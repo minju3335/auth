@@ -15,3 +15,13 @@ class Article(models.Model):
     # user = models.ForeignKey(setting.AUTH_USER_MODEL, ondelete=models.CASCADE)
     # 방법3. (권장)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+
+    # comment_set = 쟝고가 자동으로 추가해주는 칼럼
+    # user_id = 쟝고가 자동으로 추가해주는 칼럼
+
+class Comment(models.Model):
+    content = models.TextField()
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    # article_id = 쟝고가 자동으로 추가해주는 칼럼
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    # user+id = 쟝고가 자동으로 추가해주는 칼럼
