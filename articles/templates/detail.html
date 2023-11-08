@@ -4,4 +4,18 @@
     <h1>{{aritlce.title}}</h1>
     <p>{{article.content}}</p>
     <p>{{article.user}}</p>
+
+    <hr>
+
+    {% if user.is_authenticated %}
+        <form action="{% url 'articles:comment_create' %}" method="POST">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit">
+        </form>
+    {% endif %}
+
+    {% for comment in article.comment_set.all %}
+        <li>{{ comment.user }} : {{ comment.content}}</li>
+    {% endfor %}
 {% endblock %}

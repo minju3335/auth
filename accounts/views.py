@@ -33,6 +33,8 @@ def login(request):
             next_url = request.GET.get('next')
 
             return redirect(next_url or 'articles:index')
+            # next 인자에 url이 있을 때 => '/articles/create/' or 'articles:index' => 'articles/create/'
+            # next 인자에 url이 없을 때 => None or 'articles:index' => 'article:index'
     else:
         form = CustomAuthenticationForm()
 
