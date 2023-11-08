@@ -1,21 +1,37 @@
 {% extends 'base.html' %}
+{% load bootstrap5 %}
 
 {% block body %}
-    <h1>{{aritlce.title}}</h1>
-    <p>{{article.content}}</p>
-    <p>{{article.user}}</p>
+    <div class="card mt-3">
+        <div class="card-header">{{ article.user }}</div>
+        <div class="card-body">
+            <h5 class="card-title">{{ articld.title }}</h5>
+            <p class="card-text">{{ article.content }}</p>
+        </div>
+    </div>
 
+    {% if user == article.user %}
+        <a href="{% url 'articles:delete' id=article.id %}">delete</a>
+        <a href="{% url 'articles:update' id=article.id %}">update</a>
+    {% endif %}
     <hr>
 
     {% if user.is_authenticated %}
-        <form action="{% url 'articles:comment_create' %}" method="POST">
+        <form action="{% url 'articles:comment_create' article_id=article.id %}" method="POST">
             {% csrf_token %}
-            {{form}}
-            <input type="submit">
+            {% bootstrap_form form %}
+            <input type="submit" class="btn btn-primary">
         </form>
+        <hr>
     {% endif %}
 
     {% for comment in article.comment_set.all %}
-        <li>{{ comment.user }} : {{ comment.content}}</li>
+        <div class="alert alert-light">
+            {{ comment.user }} : {{ comment.content}}
+            {% if user == comment.user %}
+            <a class="btn btn-danger btn-sm" href="{% url 'articles:comment_delete' article_id=article.id id=comment.id %}">delete</a>
+            {% endif %}
+        </div>
     {% endfor %}
+
 {% endblock %}
