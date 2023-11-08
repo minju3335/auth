@@ -27,7 +27,12 @@ def login(request):
         if form.is_valid():
             #로그인
             auth_login(request, form.get_user())
-            return redirect('articles:index')
+            
+            # http://127.0.0.1:8000/accounts/login/
+            # http://127.0.0.1:8000/accounts/login/?next=/articles/create/
+            next_url = request.GET.get('next')
+
+            return redirect(next_url or 'articles:index')
     else:
         form = CustomAuthenticationForm()
 
